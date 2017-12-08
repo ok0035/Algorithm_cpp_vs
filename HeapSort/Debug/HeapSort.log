@@ -1,0 +1,9 @@
+﻿  HeapSort.cpp
+d:\project\visual studio\algorithm\heapsort\heapsort.cpp(50): error C2665: 'std::swap': none of the 2 overloads could convert all the argument types
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\exception(327): note: could be 'void std::swap(std::exception_ptr &,std::exception_ptr &) throw()'
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\utility(62): note: or       'void std::swap<int*,void>(_Ty &,_Ty &) noexcept(<expr>)'
+          with
+          [
+              _Ty=int *
+          ]
+  d:\project\visual studio\algorithm\heapsort\heapsort.cpp(50): note: while trying to match the argument list '(int *, int *)'
