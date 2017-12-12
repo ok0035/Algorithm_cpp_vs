@@ -1,7 +1,6 @@
 //카운터 정렬
 #include <time.h>
 #include <iostream>
-#include <stdio.h>
 #include <memory.h>
 using namespace std;
 
@@ -17,7 +16,7 @@ int main(void)
 
 	srand((unsigned)time(NULL));
 
-	makeRandomArr(arr, 20, 1, 10);//1~10 사이의 랜덤한 수를 100개 생성
+	makeRandomArr(arr, 20, 1, 10);//1~10 사이의 랜덤한 수를 10개 생성
 	showResult(arr, 20);//정렬 전 상태 출력
 	counterSort(arr, 20);//계수 정렬
 	showResult(arr, 20);//정렬 후 상태 출력
@@ -40,9 +39,8 @@ void counterSort(int *base, int size)
 {
 	int carr[10] = { 0 }; //돗수 분포포 세기 후에 인덱스 표로 사용
 	int index;
-	int value;
 
-	int *temp = new int[size];
+	int *temp = new int[size] {0};
 
 	for (int i = 0; i<size; i++)
 	{
@@ -54,19 +52,20 @@ void counterSort(int *base, int size)
 		cout << i+1 << " : " << carr[i] << "개" << endl;
 	}
 
-	cout << endl;
-
-	carr[0]--;//맨 앞의 돗수의 개수를 1 감소(맨 뒤에 있는 0을 배치할 인덱스를 의미)
+	carr[0]--;//맨 앞의 돗수의 개수를 1 감소(맨 뒤에 있는 숫자를 배치할 인덱스를 의미)
 	for (int i = 1; i<10; i++)
 	{
 		carr[i] += carr[i - 1];//맨 뒤에 있는 i값을 배치할 인덱스를 계산
+		//cout << carr[i] << " ";
 	}
+
+	cout << endl;
 
 	for (int i = size - 1; i >= 0; i--)
 	{
-		value = base[i] - 1;//인덱스를 얻어옮
-		temp[carr[value]] = base[i]; //값을 인덱스 표를 참고하여 배치
-		carr[value]--;//인덱스 표의 요소 값 1 감소
+		index = base[i] - 1;//인덱스를 얻어옮
+		temp[carr[index]] = base[i]; //값을 인덱스 표를 참고하여 배치
+		carr[index]--;//인덱스 표의 요소 값 1 감소
 	}
 
 	memcpy(base, temp, sizeof(int)*size);//메모리 복사

@@ -1,76 +1,79 @@
 #include<iostream>
 using namespace std;
 
-void MergeSort(int DataSet[], int StartIndex, int EndIndex);
-void Merge(int DataSet[], int StartIndex, int MiddleIndex, int EndIndex);
+void merge(int* arr, int left, int right);
+void mergeSort(int* arr, int left, int right);
+void showResult(int* arr, int size);
 
 int main() {
 
-	int DataSet[] = { 334, 6, 4, 2, 3, 1, 5, 117, 12, 34 };
-	int Length = sizeof DataSet / sizeof DataSet[0];
-	
-	MergeSort(DataSet, 0, 10 - 1);
+	int* arr = new int[10]{ 334, 6, 4, 2, 3, 1, 5, 117, 12, 34 };
 
-	for (int i = 0; i < 10; i++) {
-		cout << DataSet[i] << " ";
+	mergeSort(arr, 0, 10 - 1);
+	showResult(arr, 10);
+}
+
+
+//합치기
+void merge(int* arr, int start, int end) {
+
+	if (start < end) {
+
+		int mid = start + ((end - start) / 2);
+		int left = start;
+		int right = mid + 1;
+		int tempSize = end - start + 1;
+		int* temp = new int[tempSize] {0};
+		int i = 0;
+
+		while (left <= mid && right <= end) {
+
+			if (arr[left] < arr[right])
+				temp[i++] = arr[left++];
+			else
+				temp[i++] = arr[right++];
+
+		}
+
+		cout << endl;
+
+		while (left <= mid)
+			temp[i++] = arr[left++];
+
+		while (right <= end)
+			temp[i++] = arr[right++];
+
+		showResult(temp, tempSize);
+
+		for (int i = 0; i < tempSize; i++) {
+			arr[start + i] = temp[i];
+		}
+
+		delete temp;
+
+	}
+
+}
+
+//나누기
+void mergeSort(int* arr, int start, int end) {
+
+	if (start >= end) return;
+
+	int mid = start + ((end - start) / 2);
+
+	cout << endl << "미드 : " << mid << endl;
+
+	mergeSort(arr, start, mid);
+	mergeSort(arr, mid + 1, end);
+
+	merge(arr, start, end);
+
+}
+
+void showResult(int* arr, int size) {
+	for (int i = 0; i < size; i++) {
+		cout << arr[i] << " ";
 	}
 	cout << endl;
-
-	return 0;
-}
-
-void Merge(int DataSet[], int StartIndex, int MiddleIndex, int EndIndex) {
-
-	int i;
-	int LeftIndex = StartIndex; // 배열 기준점의 왼쪽 인덱스
-	int RightIndex = MiddleIndex; // 배열 기준점의 오른쪽 인덱스
-	int DestIndex = 0;
-
-	//정렬될 공간만큼 메모리 할당
-	int * Destination = new int[EndIndex - StartIndex + 1];
-
-	while (LeftIndex <= MiddleIndex && RightIndex <= EndIndex) {
-		
-		if (DataSet[LeftIndex] < DataSet[RightIndex]) {
-			Destination[DestIndex] = DataSet[LeftIndex];
-			LeftIndex++;
-		}
-		else {
-			Destination[DestIndex] = DataSet[RightIndex];
-			RightIndex++;
-		}
-
-		DestIndex++;
-	}
-
-	while (LeftIndex <= MiddleIndex)
-		Destination[DestIndex++] = DataSet[LeftIndex++];
-
-	while (RightIndex <= EndIndex)
-		Destination[DestIndex++] = DataSet[RightIndex++];
-
-	DestIndex = 0;
-	for (i = StartIndex; i <= EndIndex; i++) {
-		DataSet[i] = Destination[DestIndex++];
-	}
-
-	//메모리해제
-	free(Destination);
-}
-
-void MergeSort(int DataSet[], int StartIndex, int EndIndex) {
-	int MiddleIndex;
-	
-	if (EndIndex - StartIndex < 1)
-		return;
-
-	//절반으로 나누기 위해 중간 위치 찾기
-	MiddleIndex = (StartIndex + EndIndex) / 2;
-
-	//알고리즘 1-2 과정, 계속 나누기
-	MergeSort(DataSet, StartIndex, MiddleIndex);
-	MergeSort(DataSet, MiddleIndex + 1, EndIndex);
-
-	//병합
-	Merge(DataSet, StartIndex, MiddleIndex, EndIndex);
 }
