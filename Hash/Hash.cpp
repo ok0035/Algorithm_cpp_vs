@@ -57,7 +57,7 @@ int* getHashTable() {
 	int valueArray[] = { 1, 19, 5, 1, 18, 3, 8, 9, 14, 7, 5, 24, 1, 13, 16, 12, 5 };
 
 	for (int i = 0; i < hashTableSize; i++) {
-		hashTable[i] = -1;
+		hashTable[i] = -1; // ÃÊ±âÈ­
 	}
 
 	for (int i = 0; i < valueSize; i++) {
@@ -94,7 +94,7 @@ int* getHashTable() {
 }
 
 int getDoubleHash(int key, int size) {
-	int hash = size - (key % size);
+	int hash = size - getHash(key, size);
 	return hash;
 }
 

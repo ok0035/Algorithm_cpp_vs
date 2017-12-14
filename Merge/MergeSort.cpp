@@ -17,41 +17,27 @@ int main() {
 //합치기
 void merge(int* arr, int start, int end) {
 
-	if (start < end) {
+	if (start >= end) return;
 
-		int mid = start + ((end - start) / 2);
-		int left = start;
-		int right = mid + 1;
-		int tempSize = end - start + 1;
-		int* temp = new int[tempSize] {0};
-		int i = 0;
+	int mid = (start + end) / 2;
+	int left = start;
+	int right = mid + 1;
+	int tempSize = end - start + 1;
+	int * temp = new int[tempSize];
+	int tempIndex = 0;
 
-		while (left <= mid && right <= end) {
-
-			if (arr[left] < arr[right])
-				temp[i++] = arr[left++];
-			else
-				temp[i++] = arr[right++];
-
-		}
-
-		cout << endl;
-
-		while (left <= mid)
-			temp[i++] = arr[left++];
-
-		while (right <= end)
-			temp[i++] = arr[right++];
-
-		showResult(temp, tempSize);
-
-		for (int i = 0; i < tempSize; i++) {
-			arr[start + i] = temp[i];
-		}
-
-		delete temp;
-
+	while (left <= mid && right <= end) {
+		if (arr[left] < arr[right]) temp[tempIndex++] = arr[left++];
+		else temp[tempIndex++] = arr[right++];
 	}
+
+	while (left <= mid) temp[tempIndex++] = arr[left++];
+	while (right <= end) temp[tempIndex++] = arr[right++];
+
+	for (int i = 0; i < tempSize; i++)
+		arr[start + i] = temp[i];
+
+	delete temp;
 
 }
 
@@ -60,12 +46,12 @@ void mergeSort(int* arr, int start, int end) {
 
 	if (start >= end) return;
 
-	int mid = start + ((end - start) / 2);
-
-	cout << endl << "미드 : " << mid << endl;
+	int mid = (start + end) / 2;
+	int left = start;
+	int right = mid + 1;
 
 	mergeSort(arr, start, mid);
-	mergeSort(arr, mid + 1, end);
+	mergeSort(arr, right, end);
 
 	merge(arr, start, end);
 
