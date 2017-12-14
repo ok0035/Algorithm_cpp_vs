@@ -5,7 +5,6 @@ int getHash(int key, int size);
 int* getHashTable();
 void searchValue(int* arr, int val);
 void showResult(int* arr, int size);
-int getDoubleHash(int key, int size);
 int hashTableSize = 19;
 
 int main() {
@@ -18,24 +17,25 @@ int main() {
 	cin >> searchVal;
 
 	searchValue(hashTable, searchVal);
-	
+
 }
 
 void searchValue(int* arr, int val) {
-	
+
 	int index = getHash(val, hashTableSize);
-	
+
 	if (arr[index] == val) {
 		cout << "결과를 찾았습니다! -> HashTable[" << index << "] = " << arr[index] << "\n" << endl;
 	}
 
 	else {
-		int term = getDoubleHash(val, 8);
+		int term = 1;
 		int hash = index += term;
 
 		while (1) {
 			if (hash >= hashTableSize) {
-				hash -= hashTableSize;
+				cout << "결과 없음" << endl;
+				break;
 			}
 
 			if (arr[hash] == val) {
@@ -46,7 +46,7 @@ void searchValue(int* arr, int val) {
 				hash += term;
 			}
 		}
-			
+
 	}
 }
 
@@ -68,22 +68,21 @@ int* getHashTable() {
 			hashTable[cnt] = valueArray[i];
 		}
 		else {
-			int doubleHashTerm = 8 - (valueArray[i] % 8);
-			int doubleHash = cnt + doubleHashTerm;
+			cnt++;
 
 			while (1) {
-				if (doubleHash >= hashTableSize) {
-					doubleHash -= hashTableSize;
+				if (cnt >= hashTableSize) {
+					cnt -= hashTableSize;
 				}
 
-				if (hashTable[doubleHash] == -1) {
-					hashTable[doubleHash] = valueArray[i];
+				if (hashTable[cnt] == -1) {
+					hashTable[cnt] = valueArray[i];
 					break;
 				}
 				else {
-					doubleHash += doubleHashTerm;
+					cnt++;
 				}
-			}		
+			}
 		}
 	}
 
@@ -91,11 +90,6 @@ int* getHashTable() {
 	showResult(hashTable, hashTableSize);
 
 	return hashTable;
-}
-
-int getDoubleHash(int key, int size) {
-	int hash = size - getHash(key, size);
-	return hash;
 }
 
 int getHash(int key, int size) {
